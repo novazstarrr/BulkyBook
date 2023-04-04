@@ -29,9 +29,14 @@ namespace BulkBook.DataAccess.Repository
             dbSet.Add(entity);
         }
 
-        public IEnumerable<T> GetAll(string? includeProperties = null)
+        public IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter=null, string? includeProperties=null)
         {
             IQueryable<T> query = dbSet;
+            if (filter != null)
+            {
+				query = query.Where(filter);
+			}
+            
             if (includeProperties != null)
             {
                 foreach(var includeProp in includeProperties.Split(new char[] { ','}, StringSplitOptions.RemoveEmptyEntries))
@@ -39,15 +44,41 @@ namespace BulkBook.DataAccess.Repository
                     query = query.Include(includeProp);
                 }
             }
+            
 
             return query.ToList();
 
         }
 
-        public T GetFirstOrDefault(Expression<Func<T, bool>> filter, string? includeProperties = null)
+		/// <summary>
+		/// t is the model, getfirstordefault is the name of the method which returns a single model or null.
+		/// 
+		/// </summary>
+		/// <param name="filter">the brackets are to define the method, the filter is the set of conditions
+		/// to compare against the model of type t. expression allows me to parse in a strongly typed 
+		/// expression (alys gonna send me a link). the angle brackets are what allows me to define generics. 
+		/// func is a type that defines a function, it must have an output type, in this case bool. and
+		/// t is the model. a function is like a method == function. 
+		/// saying </param>
+		/// <param name="includeProperties">includeProperties allows me to access
+		/// different tables through foreign keys. </param>
+		/// <param name="tracked">allows entity framework to track.</param>
+		/// <returns></returns>
+		public T GetFirstOrDefault(Expression<Func<T, bool>> filter, string? includeProperties = null, bool tracked = true)
         {
+            /* iqueryable creates a queryable so i can query the dbset of t. 
+             * that equal*/
             IQueryable<T> query = dbSet;
 
+            if (tracked)
+            {
+                query = dbSet;
+            }
+            else
+            {
+                query = dbSet.AsNoTracking();
+            }
+            /* using linq expression.Where(calling the filter from above to pass in) */
             query = query.Where(filter);
             if(includeProperties != null)
             {

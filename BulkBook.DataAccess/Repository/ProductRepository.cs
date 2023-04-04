@@ -18,13 +18,15 @@ namespace BulkBook.DataAccess.Repository
             _context = context;
         }
 
+        
+
         public void Update(Product obj)
         {
             var objFromDb = _context.Products.FirstOrDefault(u => u.Id == obj.Id);
             if (objFromDb != null)
             {
                 objFromDb.Title = obj.Title;
-                objFromDb.ISBN = obj.ISBN;
+                objFromDb.Weight = obj.Weight;
                 objFromDb.Price = obj.Price;
                 objFromDb.Price50 = obj.Price50;
                 objFromDb.ListPrice = obj.ListPrice;

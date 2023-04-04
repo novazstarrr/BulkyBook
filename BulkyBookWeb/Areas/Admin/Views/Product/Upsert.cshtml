@@ -20,14 +20,14 @@
 
 		<div class="mb-3">
 			<label asp-for="Product.Description"></label>
-			<textarea asp-for="Product.Description" rows="3" class="form-control" ></textarea>
+			<textarea id="mytextarea" asp-for="Product.Description" rows="3" class="form-control"></textarea>
 			<span asp-validation-for="Product.Description" class="text-danger"></span>
 		</div>
 
 		<div class="mb-3 col-6">
-			<label asp-for="Product.ISBN"></label>
-			<input asp-for="Product.ISBN" class="form-control" />
-			<span asp-validation-for="Product.ISBN" class="text-danger"></span>
+			<label asp-for="Product.Weight"></label>
+			<input asp-for="Product.Weight" class="form-control" />
+			<span asp-validation-for="Product.Weight" class="text-danger"></span>
 		</div>
 
 		<div class="mb-3 col-6">
@@ -90,7 +90,7 @@
 		else
 		{
 			<button type = "submit" onclick="return ValidateInput()" class="btn btn-primary" style="width:150px">Create</button>
-		})
+		}
 		
 		
 		
@@ -108,9 +108,7 @@
 	}
 
 	<script>
-
-		
-
+	
 		function ValidateInput({
 			if(document.getElementById("uploadBox").value""){
 			Swal.fire({
@@ -124,5 +122,19 @@
 		}
 		return true;
 		)
+	</script>
+	
+	<script>
+	tinymce.init({
+		selector: '#mytextarea',
+		plugins: [
+			'a11ychecker', 'advlist', 'advcode', 'advtable', 'autolink', 'checklist', 'export',
+			'lists', 'link', 'image', 'charmap', 'preview', 'anchor', 'searchreplace', 'visualblocks',
+			'powerpaste', 'fullscreen', 'formatpainter', 'insertdatetime', 'media', 'table', 'help', 'wordcount'
+		],
+		toolbar: 'undo redo | formatpainter casechange blocks | bold italic backcolor | ' +
+			'alignleft aligncenter alignright alignjustify | ' +
+			'bullist numlist checklist outdent indent | removeformat | a11ycheck code table help'
+	});
 	</script>
 }

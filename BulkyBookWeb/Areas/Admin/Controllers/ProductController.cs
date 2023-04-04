@@ -10,9 +10,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.IO;
+using BulkyBook.Utility;
 
 namespace BulkyBookWeb.Areas.Admin.Controllers;
 [Area("Admin")]
+[Authorize(Roles = SD.Role_Admin)]
 public class ProductController : Controller
 {
 
@@ -115,16 +117,17 @@ public class ProductController : Controller
             return View(obj);
         }
 
-        
-        
 
-        #region API CALLS
-        [HttpGet]
-        public IActionResult GetAll()
-        {
-            var productList = _context.Product.GetAll(includeProperties: "Category,CoverType");
-            return Json(new { data = productList });
-        }
+
+
+    #region API CALLS
+    [HttpGet]
+    public IActionResult GetAll()
+    {
+        var productList = _context.Product.GetAll(includeProperties: "Category,CoverType");
+        return Json(new { data = productList });
+    }
+
 
     [HttpDelete]
     

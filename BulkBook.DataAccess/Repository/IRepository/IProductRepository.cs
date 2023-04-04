@@ -10,7 +10,8 @@ namespace BulkBook.DataAccess.Repository.IRepository
     //why do we save here? is it to abstract more?
     public interface IProductRepository : IRepository<Product>
     {
-        void Update(Product product);
+        void Update(Product obj);
+
         
     }
 }
